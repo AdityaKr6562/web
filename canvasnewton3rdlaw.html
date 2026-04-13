@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Newton Apple Animation</title>
+</head>
+
+<body style="margin:0; overflow:hidden;">
+<canvas id="canvas"></canvas>
+
+<script>
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Tree position
+let treeX = canvas.width * 0.4;
+let treeY = canvas.height * 0.25;
+
+// Newton directly below tree
+let newtonX = treeX;  
+let newtonY = canvas.height * 0.75;
+
+// Apple starts from tree
+let appleX = treeX;
+let appleY = treeY;
+
+let falling = false;
+let speedY = 0;
+
+// Draw Tree
+function drawTree() {
+  ctx.fillStyle = "brown";
+  ctx.fillRect(treeX - 20, treeY + 20, 40, 150);
+
+  ctx.beginPath();
+  ctx.arc(treeX, treeY, 60, 0, Math.PI * 2);
+  ctx.fillStyle = "green";
+  ctx.fill();
+}
+
+// Draw Newton
+function drawNewton() {
+  ctx.beginPath();
+  ctx.arc(newtonX, newtonY, 30, 0, Math.PI * 2);
+  ctx.fillStyle = "orange";
+  ctx.fill();
+
+  ctx.fillRect(newtonX - 15, newtonY + 30, 30, 70);
+}
+
+// Draw Apple
+function drawApple() {
+  ctx.beginPath();
+  ctx.arc(appleX, appleY, 12, 0, Math.PI * 2);
+  ctx.fillStyle = "red";
+  ctx.fill();
+
+  ctx.fillStyle = "green";
+  ctx.fillRect(appleX - 2, appleY - 18, 4, 6);
+}
+
+// Ground
+function drawGround() {
+  ctx.fillStyle = "green";
+  ctx.fillRect(0, canvas.height * 0.85, canvas.width, canvas.height * 0.15);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "skyblue";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawGround();
+  drawTree();
+  drawNewton();
+  drawApple();
+
+  ctx.fillStyle = "black";
+  ctx.font = "20px Arial";
+  ctx.fillText("Click to drop the apple", 20, 30);
+}
+
+function update() {
+  if (falling) {
+    speedY += 0.4;     // gravity
+    appleY += speedY;  // move down
+
+    // stop at head
+    if (appleY >= newtonY - 30) {
+      appleY = newtonY - 30;
+      falling = false;
+      alert("Newton discovered Gravity!");
+    }
+  }
+
+  draw();
+  requestAnimationFrame(update);
+}
+
+// Click to start
+window.addEventListener("click", () => {
+  appleX = treeX;
+  appleY = treeY;
+  speedY = 0;
+  falling = true;
+});
+
+update();
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Valentine Page</title>
+</head>
+
+<body style="
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:pink;
+  font-family:Arial;
+  text-align:center;
+">
+
+<div>
+  <h1>Will you be my Valentine? ❤️</h1>
+
+  <button onclick="yes()" style="padding:10px 20px; margin:10px;">
+    Yes 💖
+  </button>
+
+  <button id="noBtn" style="
+    position:absolute;
+    padding:10px 20px;
+  ">
+    No 😢
+  </button>
+</div>
+
+<script>
+function yes() {
+  alert("Yayyy ❤️");
+}
+
+// Make NO button run away
+let noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+  let x = Math.random() * (window.innerWidth - 100);
+  let y = Math.random() * (window.innerHeight - 50);
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+});
+</script>
+
+</body>
+</html>

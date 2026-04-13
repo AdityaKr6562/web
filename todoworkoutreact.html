@@ -1,0 +1,77 @@
+import { useState } from "react";
+
+function App() {
+  const [exercise, setExercise] = useState("");
+  const [time, setTime] = useState("");
+  const [list, setList] = useState([]);
+
+  const addWorkout = () => {
+    if (exercise === "" || time === "") {
+      alert("Enter exercise and time");
+      return;
+    }
+
+    const newItem = {
+      name: exercise,
+      duration: Number(time)
+    };
+
+    setList([...list, newItem]);
+    setExercise("");
+    setTime("");
+  };
+
+  const deleteItem = (index) => {
+    const updated = list.filter((_, i) => i !== index);
+    setList(updated);
+  };
+
+  // Total time calculation
+  const totalTime = list.reduce((sum, item) => sum + item.duration, 0);
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px", fontFamily: "Arial" }}>
+      <h2>Workout To-Do List</h2>
+
+      <input
+        type="text"
+        placeholder="Exercise (e.g. Pushups)"
+        value={exercise}
+        onChange={(e) => setExercise(e.target.value)}
+        style={{ margin: "5px", padding: "8px" }}
+      />
+
+      <input
+        type="number"
+        placeholder="Time (mins)"
+        value={time}
+        onChange={(e) => setTime(e.target.value)}
+        style={{ margin: "5px", padding: "8px" }}
+      />
+
+      <br />
+
+      <button onClick={addWorkout} style={{ marginTop: "10px" }}>
+        Add Workout
+      </button>
+
+      <ul style={{ listStyle: "none", padding: 0, marginTop: "20px" }}>
+        {list.map((item, index) => (
+          <li key={index} style={{ margin: "10px" }}>
+            {item.name} - {item.duration} mins
+            <button
+              onClick={() => deleteItem(index)}
+              style={{ marginLeft: "10px" }}
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <h3>Total Workout Time: {totalTime} mins</h3>
+    </div>
+  );
+}
+
+export default App;

@@ -1,0 +1,108 @@
+import { useState } from "react";
+
+function App() {
+  const questions = [
+    {
+      question: "2 + 2 = ?",
+      options: ["3", "4", "5", "6"],
+      answer: "4"
+    },
+    {
+      question: "Capital of India?",
+      options: ["Mumbai", "Delhi", "Chennai", "Kolkata"],
+      answer: "Delhi"
+    },
+    {
+      question: "5 * 3 = ?",
+      options: ["10", "15", "20", "25"],
+      answer: "15"
+    }
+  ];
+
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState(Array(questions.length).fill(null));
+  const [score, setScore] = useState(null);
+
+  const handleOptionClick = (option) => {
+    const updated = [...selected];
+    updated[current] = option;
+    setSelected(updated);
+  };
+
+  const nextQuestion = () => {
+    if (current < questions.length - 1) {
+      setCurrent(current + 1);
+    }
+  };
+
+  const prevQuestion = () => {
+    if (current > 0) {
+      setCurrent(current - 1);
+    }
+  };
+
+  const calculateScore = () => {
+    let sc = 0;
+    questions.forEach((q, i) => {
+      if (selected[i] === q.answer) sc++;
+    });
+    setScore(sc);
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px", fontFamily: "Arial" }}>
+      <h2>Quiz App</h2>
+
+      {score === null ? (
+        <div>
+          <h3>
+            Q{current + 1}. {questions[current].question}
+          </h3>
+
+          {questions[current].options.map((opt, index) => (
+            <div key={index}>
+              <button
+                onClick={() => handleOptionClick(opt)}
+                style={{
+                  margin: "5px",
+                  padding: "10px",
+                  backgroundColor:
+                    selected[current] === opt ? "lightblue" : "white"
+                }}
+              >
+                {opt}
+              </button>
+            </div>
+          ))}
+
+          <div style={{ marginTop: "20px" }}>
+            <button onClick={prevQuestion} disabled={current === 0}>
+              Previous
+            </button>
+
+            <button
+              onClick={nextQuestion}
+              disabled={current === questions.length - 1}
+              style={{ marginLeft: "10px" }}
+            >
+              Next
+            </button>
+          </div>
+
+          <button
+            onClick={calculateScore}
+            style={{ marginTop: "20px" }}
+          >
+            Submit
+          </button>
+        </div>
+      ) : (
+        <div>
+          <h2>Your Score: {score} / {questions.length}</h2>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;

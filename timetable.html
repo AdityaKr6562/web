@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Advanced Time Table</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f0f4f8;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 900px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background: #333;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #e6f2ff;
+    }
+
+    tr:hover {
+      background: #cce0ff;
+    }
+
+    .day {
+      font-weight: bold;
+      background: #d1e7ff;
+    }
+
+    .lunch {
+      background: orange;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<h2>Class Time Table</h2>
+
+<table>
+
+  <tr>
+    <th>Day/Time</th>
+    <th>9-10</th>
+    <th>10-11</th>
+    <th>11-12</th>
+    <th>12-1</th>
+    <th>2-3</th>
+    <th>3-4</th>
+  </tr>
+
+  <tr>
+    <td class="day">Monday</td>
+    <td>Math</td>
+    <td>Physics</td>
+    <td>Chemistry</td>
+    <td class="lunch" rowspan="5">Lunch</td>
+    <td>English</td>
+    <td>Lab</td>
+  </tr>
+
+  <tr>
+    <td class="day">Tuesday</td>
+    <td>Biology</td>
+    <td>Math</td>
+    <td>Physics</td>
+    <td>Sports</td>
+    <td>English</td>
+  </tr>
+
+  <tr>
+    <td class="day">Wednesday</td>
+    <td>Chemistry</td>
+    <td>Math</td>
+    <td>Biology</td>
+    <td>Physics</td>
+    <td>Lab</td>
+  </tr>
+
+  <tr>
+    <td class="day">Thursday</td>
+    <td>English</td>
+    <td>Chemistry</td>
+    <td>Math</td>
+    <td>Biology</td>
+    <td>Sports</td>
+  </tr>
+
+  <tr>
+    <td class="day">Friday</td>
+    <td>Physics</td>
+    <td>Math</td>
+    <td>English</td>
+    <td>Chemistry</td>
+    <td>Lab</td>
+  </tr>
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation</title>
+</head>
+
+<body style="background-color: lightblue; font-family: Arial;">
+
+  <h2 align="center">Student Form</h2>
+
+  <form id="myForm" onsubmit="return validateForm()" 
+        style="width:300px; margin:auto; background:white; padding:20px; border-radius:10px;">
+
+    First name:<br>
+    <input type="text" id="fname" placeholder="fname"><br><br>
+
+    Last name:<br>
+    <input type="text" id="lname"><br><br>
+
+    Email ID:<br>
+    <input type="text" id="email"><br><br>
+
+    Password:<br>
+    <input type="password" id="password"><br><br>
+
+    Course:<br>
+    <select id="course">
+      <option value="">Select Course</option>
+      <option>B.Tech</option>
+      <option>BCA</option>
+      <option>MCA</option>
+    </select>
+<br><br><div>GENDER:<br>
+    <input type="radio" name="gender" value="male"> Male    
+    <input type="radio" name="gender" value="female"> Female  
+    <input type="radio" name="gender" value="other"> Other<br><br>
+  
+  
+  </div>
+
+  CAR:<br>
+  <input type="checkbox" id="car1" name="car1" value=abcd> I have a car<br>
+  <input type="checkbox" id="car2" name="car2" value=abcd> I have a bike<br><br>
+
+
+    
+
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+
+  </form>
+
+<script>
+function validateForm() {
+  let valid = true;
+  let message = "";
+
+  let fname = document.getElementById("fname");
+  let lname = document.getElementById("lname");
+  let email = document.getElementById("email");
+  let password = document.getElementById("password");
+  let course = document.getElementById("course");
+  let form = document.getElementById("myForm");
+
+  // Reset borders
+  [fname, lname, email, password, course].forEach(field => {
+    field.style.border = "1px solid black";
+  });
+
+  // First name
+  if (fname.value === "") {
+    fname.style.border = "2px solid red";
+    message += "First name is required\n";
+    valid = false;
+  }
+
+  // Last name
+  if (lname.value === "") {
+    lname.style.border = "2px solid red";
+    message += "Last name is required\n";
+    valid = false;
+  }
+
+  // Email
+  if (!email.value.includes("@")) {
+    email.style.border = "2px solid red";
+    message += "Enter valid email\n";
+    valid = false;
+  }
+
+  // Password
+  if (password.value.length < 6) {
+    password.style.border = "2px solid red";
+    message += "Password must be at least 6 characters\n";
+    valid = false;
+  }
+
+  // Course
+  if (course.value === "") {
+    course.style.border = "2px solid red";
+    message += "Select a course\n";
+    valid = false;
+  }
+
+  // Final result
+  if (!valid) {
+    alert(message);   // ❌ Show all errors together
+    form.style.backgroundColor = "#f4f4f4";
+    return false;
+  } else {
+    form.style.backgroundColor = "lightgreen";
+   
+    return false;
+  }
+}
+</script>
+
+</body>
+</html>

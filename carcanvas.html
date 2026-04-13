@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Path Animation</title>
+</head>
+
+<body style="margin:0; text-align:center; font-family:Arial; background:#eee;">
+
+<h2>Car Path Drawing</h2>
+
+<button onclick="createCar()">Create Car</button>
+
+<select id="color" onchange="changeColor()">
+  <option value="red">Red</option>
+  <option value="blue">Blue</option>
+  <option value="green">Green</option>
+</select>
+
+<br><br>
+
+<canvas id="canvas" width="800" height="400" style="background:white;"></canvas>
+
+<script>
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+let path = [];
+let drawing = false;
+
+let car = {
+  x: 100,
+  y: 200,
+  index: 0,
+  visible: false,
+  color: "red",
+  moving: false
+};
+
+// STEP 1: Create car first
+function createCar() {
+  car.visible = true;
+  car.moving = false;
+  path = [];
+}
+
+// STEP 2: Change color anytime
+function changeColor() {
+  car.color = document.getElementById("color").value;
+}
+
+// STEP 3: Draw path AFTER car exists
+canvas.addEventListener("mousedown", (e) => {
+  if (!car.visible) {
+    alert("Create car first!");
+    return;
+  }
+
+  drawing = true;
+  path = [];
+  car.moving = false;
+});
+
+canvas.addEventListener("mouseup", () => {
+  drawing = false;
+  car.index = 0;
+  car.moving = true; // start movement after drawing
+});
+
+canvas.addEventListener("mousemove", (e) => {
+  if (drawing) {
+    let rect = canvas.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+
+    path.push({ x, y });
+  }
+});
+
+// Draw car
+function drawCar() {
+  if (!car.visible) return;
+
+  ctx.fillStyle = car.color;
+  ctx.fillRect(car.x - 20, car.y - 10, 40, 20);
+
+  // wheels
+  ctx.fillStyle = "black";
+  ctx.beginPath();
+  ctx.arc(car.x - 10, car.y + 10, 5, 0, Math.PI * 2);
+  ctx.arc(car.x + 10, car.y + 10, 5, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// Draw path
+function drawPath() {
+  if (path.length < 2) return;
+
+  ctx.beginPath();
+  ctx.moveTo(path[0].x, path[0].y);
+
+  for (let i = 1; i < path.length; i++) {
+    ctx.lineTo(path[i].x, path[i].y);
+  }
+
+  ctx.strokeStyle = "gray";
+  ctx.stroke();
+}
+
+// Move car along path
+function moveCar() {
+  if (car.moving && car.index < path.length) {
+    car.x = path[car.index].x;
+    car.y = path[car.index].y;
+    car.index += 1;
+  }
+}
+
+// Animation loop
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawPath();
+  drawCar();
+  moveCar();
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>

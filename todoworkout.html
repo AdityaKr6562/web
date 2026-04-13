@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workout To-Do</title>
+</head>
+
+<body style="font-family: Arial; text-align: center; margin-top: 50px; background: lightblue;">
+
+  <h2>Workout To-Do List</h2>
+
+  <div id="box" style="background:white; padding:20px; width:300px; margin:auto; border-radius:10px;">
+
+    <input type="text" id="exercise" placeholder="Exercise"><br><br>
+    <input type="number" id="time" placeholder="Time (mins)"><br><br>
+
+    <button onclick="addWorkout()">Add Workout</button>
+
+    <ul id="list" style="list-style:none; padding:0; margin-top:20px;"></ul>
+
+    <h3 id="total">Total Time: 0 mins</h3>
+
+  </div>
+
+<script>
+let workouts = [];
+
+function addWorkout() {
+  let exercise = document.getElementById("exercise");
+  let time = document.getElementById("time");
+
+  // Reset borders
+  exercise.style.border = "1px solid black";
+  time.style.border = "1px solid black";
+
+  // Validation
+  if (exercise.value === "") {
+    exercise.style.border = "2px solid red";
+    alert("Enter exercise name");
+    return;
+  }
+
+  if (time.value === "" || time.value <= 0) {
+    time.style.border = "2px solid red";
+    alert("Enter valid time");
+    return;
+  }
+
+  // Add to array
+  workouts.push({
+    name: exercise.value,
+    duration: Number(time.value)
+  });
+
+  exercise.value = "";
+  time.value = "";
+
+  displayList();
+}
+
+function deleteWorkout(index) {
+  workouts.splice(index, 1);
+  displayList();
+}
+
+function displayList() {
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+
+  let total = 0;
+
+  workouts.forEach((item, index) => {
+    total += item.duration;
+
+    list.innerHTML += `
+      <li style="margin:10px;">
+        ${item.name} - ${item.duration} mins
+        <button onclick="deleteWorkout(${index})">Delete</button>
+      </li>
+    `;
+  });
+
+  document.getElementById("total").innerText = "Total Time: " + total + " mins";
+
+  // Bonus UI: color change
+  document.getElementById("total").style.color = total > 60 ? "red" : "green";
+}
+</script>
+
+</body>
+</html>

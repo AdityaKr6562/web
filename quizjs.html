@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+</head>
+
+<body style="font-family: Arial; text-align: center; margin-top: 50px;">
+
+  <h2>Quiz App</h2>
+
+  <h3 id="question"></h3>
+
+  <div id="options"></div>
+
+  <br>
+
+  <button onclick="prevQuestion()">Previous</button>
+  <button onclick="nextQuestion()">Next</button>
+
+  <br><br>
+
+  <button onclick="submitQuiz()">Submit</button>
+
+  <h2 id="result"></h2>
+
+<script>
+  const questions = [
+    {
+      question: "2 + 2 = ?",
+      options: ["3", "4", "5", "6"],
+      answer: "4"
+    },
+    {
+      question: "Capital of India?",
+      options: ["Mumbai", "Delhi", "Chennai", "Kolkata"],
+      answer: "Delhi"
+    },
+    {
+      question: "5 * 3 = ?",
+      options: ["10", "15", "20", "25"],
+      answer: "15"
+    }
+  ];
+
+  let current = 0;
+  let selected = new Array(questions.length).fill(null);
+
+  function loadQuestion() {
+    document.getElementById("question").innerText =
+      "Q" + (current + 1) + ". " + questions[current].question;
+
+    let optionsHTML = "";
+
+    questions[current].options.forEach((opt) => {
+      optionsHTML += `
+        <button onclick="selectOption('${opt}')"
+          style="display:block; margin:5px auto; padding:10px;
+          background-color:${selected[current] === opt ? 'lightblue' : 'white'}">
+          ${opt}
+        </button>
+      `;
+    });
+
+    document.getElementById("options").innerHTML = optionsHTML;
+  }
+
+  function selectOption(option) {
+    selected[current] = option;
+    loadQuestion();
+  }
+
+  function nextQuestion() {
+    if (current < questions.length - 1) {
+      current++;
+      loadQuestion();
+    }
+  }
+
+  function prevQuestion() {
+    if (current > 0) {
+      current--;
+      loadQuestion();
+    }
+  }
+
+  function submitQuiz() {
+    let score = 0;
+
+    questions.forEach((q, i) => {
+      if (selected[i] === q.answer) score++;
+    });
+
+    document.getElementById("result").innerText =
+      "Your Score: " + score + " / " + questions.length;
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
