@@ -1,0 +1,83 @@
+import { useState } from "react";
+
+function App() {
+  const [userScore, setUserScore] = useState(0);
+  const [compScore, setCompScore] = useState(0);
+  const [round, setRound] = useState(0);
+  const maxRounds = 5;
+
+  const [output, setOutput] = useState("");
+
+  const play = (userChoice) => {
+    if (round >= maxRounds) {
+      alert("Game Over! Refresh to play again.");
+      return;
+    }
+
+    const choices = ["Stone", "Paper", "Scissors"];
+    const compChoice = choices[Math.floor(Math.random() * 3)];
+
+    let result = "";
+    let newUserScore = userScore;
+    let newCompScore = compScore;
+
+    if (userChoice === compChoice) {
+      result = "Draw";
+    } else if (
+      (userChoice === "Stone" && compChoice === "Scissors") ||
+      (userChoice === "Paper" && compChoice === "Stone") ||
+      (userChoice === "Scissors" && compChoice === "Paper")
+    ) {
+      result = "You Win";
+      newUserScore++;
+    } else {
+      result = "Computer Wins";
+      newCompScore++;
+    }
+
+    const newRound = round + 1;
+
+    let display =
+      `Round: ${newRound}\n` +
+      `Your Choice: ${userChoice}\n` +
+      `Computer Choice: ${compChoice}\n` +
+      `Result: ${result}\n\n` +
+      `User Score: ${newUserScore} | Computer Score: ${newCompScore}`;
+
+    if (newRound === maxRounds) {
+      let finalResult = "";
+
+      if (newUserScore > newCompScore) {
+        finalResult = "You Won The Game!";
+      } else if (newCompScore > newUserScore) {
+        finalResult = "Computer Won The Game!";
+      } else {
+        finalResult = "Game Draw!";
+      }
+
+      display += `\n\n${finalResult}`;
+    }
+
+    // Update states
+    setUserScore(newUserScore);
+    setCompScore(newCompScore);
+    setRound(newRound);
+    setOutput(display);
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px", fontFamily: "Arial" }}>
+      <h2>Stone Paper Scissors Game</h2>
+
+      <button onClick={() => play("Stone")}>Stone</button>
+      <button onClick={() => play("Paper")}>Paper</button>
+      <button onClick={() => play("Scissors")}>Scissors</button>
+
+      <p style={{ whiteSpace: "pre-line", marginTop: "20px" }}>
+        {output}
+      </p>
+    </div>
+  );
+}
+
+export default App;
