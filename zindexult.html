@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Window Manager</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #2c3e50;
+      color: white;
+    }
+
+    button {
+      margin: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    /* Window */
+    .window {
+      width: 200px;
+      position: absolute;
+      background: white;
+      color: black;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      transition: 0.2s;
+    }
+
+    .window:hover {
+      transform: scale(1.03);
+    }
+
+    .title {
+      background: #34495e;
+      color: white;
+      padding: 5px;
+      cursor: grab;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .content {
+      padding: 10px;
+    }
+
+    .close {
+      cursor: pointer;
+      color: red;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<button onclick="createWindow()">New Window</button>
+
+<script>
+let z = 1;
+let current = null, offsetX = 0, offsetY = 0;
+
+function createWindow() {
+  let win = document.createElement("div");
+  win.className = "window";
+
+  win.style.left = Math.random()*400 + "px";
+  win.style.top = Math.random()*200 + "px";
+
+  win.innerHTML = `
+    <div class="title" contenteditable="true">
+      Window
+      <span class="close">❌</span>
+    </div>
+    <div class="content">
+      <input type="color" onchange="this.closest('.window').style.background=this.value">
+      <p>Editable content</p>
+    </div>
+  `;
+
+  document.body.appendChild(win);
+
+  // Bring to front
+  win.addEventListener("mousedown", () => {
+    z++;
+    win.style.zIndex = z;
+  });
+
+  // Dragging
+  let title = win.querySelector(".title");
+
+  title.addEventListener("mousedown", (e) => {
+    current = win;
+    offsetX = e.clientX - win.offsetLeft;
+    offsetY = e.clientY - win.offsetTop;
+  });
+
+  // Close
+  win.querySelector(".close").onclick = () => {
+    win.remove();
+  };
+
+  // Double click minimize
+  win.ondblclick = () => {
+    let content = win.querySelector(".content");
+    content.style.display =
+      content.style.display === "none" ? "block" : "none";
+  };
+}
+
+// Move
+document.addEventListener("mousemove", (e) => {
+  if (!current) return;
+
+  current.style.left = (e.clientX - offsetX) + "px";
+  current.style.top = (e.clientY - offsetY) + "px";
+});
+
+// Release
+document.addEventListener("mouseup", () => {
+  current = null;
+});
+</script>
+
+</body>
+</html>

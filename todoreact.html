@@ -1,0 +1,96 @@
+import { useState } from "react";
+
+function App() {
+  // Counter
+  const [count, setCount] = useState(0);
+
+  // Todo
+  const [task, setTask] = useState("");
+  const [list, setList] = useState([]);
+
+  // Theme
+  const [dark, setDark] = useState(false);
+
+  // Search
+  const [search, setSearch] = useState("");
+  const data = ["Apple", "Banana", "Mango", "Orange"];
+
+  const addTask = () => {
+    if (!task) return;
+    setList([...list, task]);
+    setTask("");
+  };
+
+  return (
+    <div
+      style={{
+        background: dark ? "#111" : "#fff",
+        color: dark ? "#fff" : "#000",
+        minHeight: "100vh",
+        padding: "20px",
+        fontFamily: "Arial"
+      }}
+    >
+      <h1>Mini Dashboard</h1>
+
+      {/* Theme Toggle */}
+      <button onClick={() => setDark(!dark)}>
+        Toggle Theme
+      </button>
+
+      <hr />
+
+      {/* Counter */}
+      <h2>Counter: {count}</h2>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <button onClick={() => setCount(count - 1)}>-</button>
+
+      <hr />
+
+      {/* Todo List */}
+      <h2>To-Do List</h2>
+      <input
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        placeholder="Enter task"
+      />
+      <button onClick={addTask}>Add</button>
+
+      <ul>
+        {list.map((item, i) => (
+          <li key={i}>
+            {item}
+            <button
+              onClick={() =>
+                setList(list.filter((_, index) => index !== i))
+              }
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <hr />
+
+      {/* Search */}
+      <h2>Search Fruits</h2>
+      <input
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search..."
+      />
+
+      <ul>
+        {data
+          .filter(item =>
+            item.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;

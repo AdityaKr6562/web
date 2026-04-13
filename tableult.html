@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ultimate Table</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f4f4;
+    }
+
+    input, button {
+      padding: 8px;
+      margin: 5px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      width: 60%;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #333;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+
+    tr:hover {
+      background: lightblue;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<h2>Student Table</h2>
+
+<!-- Inputs -->
+<input type="text" id="name" placeholder="Name">
+<input type="number" id="age" placeholder="Age">
+<button onclick="addRow()">Add</button>
+<button onclick="sortTable()">Sort by Age</button>
+
+<br>
+
+<!-- Search -->
+<input type="text" id="search" placeholder="Search..." onkeyup="searchTable()">
+
+<br>
+
+<!-- Color Picker -->
+<label>Select Row Color: </label>
+<input type="color" id="rowColor" value="#ffff00">
+
+<!-- Table -->
+<table id="table">
+  <tr>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Action</th>
+  </tr>
+</table>
+
+<script>
+let table = document.getElementById("table");
+
+// ADD ROW
+function addRow() {
+  let name = document.getElementById("name").value;
+  let age = document.getElementById("age").value;
+
+  if (name === "" || age === "") {
+    alert("Enter all fields");
+    return;
+  }
+
+  let row = table.insertRow();
+
+  row.insertCell(0).innerText = name;
+  row.insertCell(1).innerText = age;
+
+  row.insertCell(2).innerHTML =
+    '<button onclick="deleteRow(this)">Delete</button>';
+
+  addClickColor(row);
+
+  document.getElementById("name").value = "";
+  document.getElementById("age").value = "";
+}
+
+// DELETE ROW
+function deleteRow(btn) {
+  btn.parentNode.parentNode.remove();
+}
+
+// SEARCH
+function searchTable() {
+  let input = document.getElementById("search").value.toLowerCase();
+  let rows = table.getElementsByTagName("tr");
+
+  for (let i = 1; i < rows.length; i++) {
+    let text = rows[i].innerText.toLowerCase();
+    rows[i].style.display = text.includes(input) ? "" : "none";
+  }
+}
+
+// SORT
+function sortTable() {
+  let rows = Array.from(table.rows).slice(1);
+
+  rows.sort((a, b) => {
+    return a.cells[1].innerText - b.cells[1].innerText;
+  });
+
+  rows.forEach(row => table.appendChild(row));
+}
+
+// CHANGE ROW COLOR ON CLICK
+function addClickColor(row) {
+  row.onclick = () => {
+    let color = document.getElementById("rowColor").value;
+    row.style.background = color;
+  };
+
+  // Double click to reset
+  row.ondblclick = () => {
+    row.style.background = "";
+  };
+}
+
+// APPLY TO EXISTING ROWS
+let rows = table.getElementsByTagName("tr");
+for (let i = 1; i < rows.length; i++) {
+  addClickColor(rows[i]);
+}
+</script>
+
+</body>
+</html>
