@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Manipulation + Online Quiz</title>
+
+    <style>
+        .highlight {
+            color: white;
+            background-color: blue;
+            font-size: 25px;
+        }
+
+        .dark {
+            background-color: black;
+            color: white;
+        }
+
+        /* Quiz Styling */
+        .quiz-container {
+            background: white;
+            width: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        .option {
+            margin: 8px 0;
+        }
+
+        .quiz-btn {
+            width: 100%;
+            padding: 8px;
+            background-color: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .quiz-btn:hover {
+            background-color: #2e59d9;
+        }
+
+        #result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body id="body">
+
+<!-- 1 Changing Style -->
+<h2 id="text">1. Hello Everyone</h2>
+<button onclick="changeStyle()">Change Style</button>
+
+<hr>
+
+<!-- 2 Adding & Removing CSS Class -->
+<h2>2. Click the button to style me!</h2>
+<p id="para">Click the button to style me!</p>
+
+<button onclick="addClass()">Add Style</button>
+<button onclick="removeClass()">Remove Style</button>
+
+<hr>
+
+<!-- 3 Changing Multiple Elements -->
+<h2>3. Changing Multiple Elements</h2>
+<ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+</ul>
+
+<button onclick="changeAll()">Change All</button>
+
+<hr>
+
+<!-- 4 Toggle Dark Mode -->
+<h2>4. Toggle Dark Mode</h2>
+<button onclick="toggleMode()">Toggle Dark Mode</button>
+
+<hr>
+
+<!-- 5 Online Quiz Section -->
+<h2>5. Online Quiz</h2>
+
+<div class="quiz-container">
+    <div id="quiz"></div>
+    <button class="quiz-btn" onclick="submitQuiz()">Submit Quiz</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    // Section 1
+    function changeStyle() {
+        let element = document.getElementById("text");
+        element.style.color = "red";
+        element.style.backgroundColor = "yellow";
+        element.style.fontSize = "30px";
+    }
+
+    // Section 2
+    function addClass() {
+        document.getElementById("para").classList.add("highlight");
+    }
+
+    function removeClass() {
+        document.getElementById("para").classList.remove("highlight");
+    }
+
+    // Section 3
+    function changeAll() {
+        let items = document.querySelectorAll("li");
+        for (let i = 0; i < items.length; i++) {
+            items[i].style.color = "green";
+        }
+    }
+
+    // Section 4
+    function toggleMode() {
+        document.getElementById("body").classList.toggle("dark");
+    }
+
+    // Section 5 - Quiz
+    const questions = [
+        {
+            question: "1. Which language is used for styling?",
+            options: ["HTML", "CSS", "Python", "C++"],
+            answer: "CSS"
+        },
+        {
+            question: "2. Which tag links JavaScript?",
+            options: ["<script>", "<js>", "<javascript>", "<code>"],
+            answer: "<script>"
+        },
+        {
+            question: "3. JavaScript is used for?",
+            options: ["Styling", "Structure", "Interaction", "Database"],
+            answer: "Interaction"
+        }
+    ];
+
+    const quizDiv = document.getElementById("quiz");
+
+    questions.forEach((q, index) => {
+        let html = `<p>${q.question}</p>`;
+        q.options.forEach(option => {
+            html += `
+                <div class="option">
+                    <input type="radio" name="q${index}" value="${option}">
+                    ${option}
+                </div>
+            `;
+        });
+        quizDiv.innerHTML += html;
+    });
+
+    function submitQuiz() {
+        let score = 0;
+
+        questions.forEach((q, index) => {
+            let selected = document.querySelector(`input[name="q${index}"]:checked`);
+            if (selected && selected.value === q.answer) {
+                score++;
+            }
+        });
+
+        document.getElementById("result").innerHTML =
+            "Your Score: " + score + " / " + questions.length;
+    }
+</script>
+
+</body>
+</html>

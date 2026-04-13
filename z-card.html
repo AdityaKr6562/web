@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stack Cards Drag & Drop</title>
+
+    <style>
+        body{
+            margin:0;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:#8b0000;
+            overflow:hidden;
+        }
+
+        .container{
+            position:relative;
+            width:600px;
+            height:400px;
+        }
+
+        .card{
+            position:absolute;
+            width:250px;
+            height:150px;
+            border-radius:20px;
+            color:white;
+            font-size:22px;
+            font-weight:bold;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            cursor:grab;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .card:active{
+            cursor:grabbing;
+            box-shadow:0 10px 30px rgba(0,0,0,0.4);
+            transform:scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card" style="background:#3b82f6; top:80px; left:80px;">Card 1</div>
+    <div class="card" style="background:#f97316; top:60px; left:100px;">Card 2</div>
+    <div class="card" style="background:#ef4444; top:40px; left:120px;">Card 3</div>
+    <div class="card" style="background:#a855f7; top:20px; left:140px;">Card 4</div>
+</div>
+
+<script>
+    const cards = document.querySelectorAll(".card");
+    let highestZ = 1;
+
+    cards.forEach(card => {
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+
+        card.addEventListener("mousedown", function(e){
+            isDragging = true;
+
+            // Bring clicked card to front
+            highestZ++;
+            card.style.zIndex = highestZ;
+
+            offsetX = e.clientX - card.offsetLeft;
+            offsetY = e.clientY - card.offsetTop;
+        });
+
+        document.addEventListener("mousemove", function(e){
+            if(!isDragging) return;
+
+            card.style.left = (e.clientX - offsetX) + "px";
+            card.style.top = (e.clientY - offsetY) + "px";
+        });
+
+        document.addEventListener("mouseup", function(){
+            isDragging = false;
+        });
+    });
+</script>
+
+</body>
+</html>

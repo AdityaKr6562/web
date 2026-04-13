@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stone Paper Scissors</title>
+
+<style>
+body{
+    font-family: Arial;
+    text-align: center;
+    margin-top: 50px;
+}
+button{
+    padding:10px 20px;
+    margin:10px;
+    font-size:16px;
+}
+</style>
+
+<script>
+
+let userScore = 0;
+let compScore = 0;
+let round = 0;
+let maxRounds = 5;
+
+function play(userChoice){
+
+    if(round >= maxRounds){
+        alert("Game Over! Refresh to play again.");
+        return;
+    }
+
+    const choices = ["Stone","Paper","Scissors"];
+    const compChoice = choices[Math.floor(Math.random()*3)];
+
+    let result = "";
+
+    if(userChoice === compChoice){
+        result = "Draw";
+    }
+    else if(
+        (userChoice === "Stone" && compChoice === "Scissors") ||
+        (userChoice === "Paper" && compChoice === "Stone") ||
+        (userChoice === "Scissors" && compChoice === "Paper")
+    ){
+        result = "You Win";
+        userScore++;
+    }
+    else{
+        result = "Computer Wins";
+        compScore++;
+    }
+
+    round++;
+
+    document.getElementById("output").innerHTML =
+    "Round: " + round + "<br>" +
+    "Your Choice: " + userChoice + "<br>" +
+    "Computer Choice: " + compChoice + "<br>" +
+    "Result: " + result + "<br><br>" +
+    "User Score: " + userScore + " | Computer Score: " + compScore;
+
+    if(round === maxRounds){
+        let finalResult = "";
+
+        if(userScore > compScore){
+            finalResult = "You Won The Game!";
+        }
+        else if(compScore > userScore){
+            finalResult = "Computer Won The Game!";
+        }
+        else{
+            finalResult = "Game Draw!";
+        }
+
+        document.getElementById("output").innerHTML += "<br><br><b>" + finalResult + "</b>";
+    }
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2>Stone Paper Scissors Game</h2>
+
+<button onclick="play('Stone')">Stone</button>
+<button onclick="play('Paper')">Paper</button>
+<button onclick="play('Scissors')">Scissors</button>
+
+<p id="output"></p>
+
+</body>
+</html>
