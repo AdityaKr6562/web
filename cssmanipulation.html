@@ -1,0 +1,100 @@
+import { useState } from "react";
+
+function App() {
+  const [dark, setDark] = useState(false);
+  const [color, setColor] = useState("purple");
+  const [size, setSize] = useState(20);
+  const [radius, setRadius] = useState(10);
+  const [shadow, setShadow] = useState(false);
+  const [show, setShow] = useState(true);
+  const [hover, setHover] = useState(false);
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        padding: "20px",
+        background: dark ? "#111" : "#eee",
+        color: dark ? "white" : "black",
+        textAlign: "center",
+        fontFamily: "Arial"
+      }}
+    >
+      <h1>CSS Manipulation Dashboard</h1>
+
+      {/* THEME */}
+      <button onClick={() => setDark(!dark)}>Toggle Theme</button>
+
+      <hr />
+
+      {/* COLOR */}
+      <h3>Change Color</h3>
+      <input
+        type="color"
+        onChange={(e) => setColor(e.target.value)}
+      />
+
+      <hr />
+
+      {/* FONT SIZE */}
+      <h3>Font Size</h3>
+      <button onClick={() => setSize(size + 5)}>Increase</button>
+      <button onClick={() => setSize(size - 5)}>Decrease</button>
+
+      <hr />
+
+      {/* BOX CONTROLS */}
+      <h3>Box Controls</h3>
+      <button onClick={() => setRadius(radius + 5)}>More Round</button>
+      <button onClick={() => setRadius(radius - 5)}>Less Round</button>
+      <button onClick={() => setShadow(!shadow)}>Toggle Shadow</button>
+
+      <hr />
+
+      {/* SHOW / HIDE */}
+      <button onClick={() => setShow(!show)}>
+        {show ? "Hide Box" : "Show Box"}
+      </button>
+
+      <hr />
+
+      {/* MAIN BOX */}
+      {show && (
+        <div
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          style={{
+            margin: "30px auto",
+            width: "250px",
+            height: "250px",
+            background: color,
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: size + "px",
+            borderRadius: radius + "px",
+            transition: "0.3s",
+            boxShadow: shadow
+              ? "0 0 20px rgba(0,0,0,0.5)"
+              : "none",
+            transform: hover
+              ? "scale(1.1) rotate(5deg)"
+              : "scale(1)"
+          }}
+        >
+          Dynamic Box
+        </div>
+      )}
+
+      <hr />
+
+      {/* TEXT STYLING */}
+      <h3 style={{ color: color, fontSize: size }}>
+        Styled Text Example
+      </h3>
+    </div>
+  );
+}
+
+export default App;

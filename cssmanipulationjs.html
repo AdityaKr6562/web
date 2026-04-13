@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSS Manipulation JS</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      text-align: center;
+      background: #eee;
+    }
+
+    button, input {
+      padding: 8px;
+      margin: 5px;
+    }
+
+    #box {
+      width: 250px;
+      height: 250px;
+      margin: 30px auto;
+      background: purple;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.3s;
+      border-radius: 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<h2>CSS Manipulation Dashboard</h2>
+
+<!-- Theme -->
+<button onclick="toggleTheme()">Toggle Theme</button>
+
+<hr>
+
+<!-- Color -->
+<input type="color" id="colorPicker">
+
+<hr>
+
+<!-- Font Size -->
+<button onclick="changeSize(5)">Increase Text</button>
+<button onclick="changeSize(-5)">Decrease Text</button>
+
+<hr>
+
+<!-- Radius -->
+<button onclick="changeRadius(5)">More Round</button>
+<button onclick="changeRadius(-5)">Less Round</button>
+
+<hr>
+
+<!-- Shadow -->
+<button onclick="toggleShadow()">Toggle Shadow</button>
+
+<hr>
+
+<!-- Show/Hide -->
+<button onclick="toggleBox()">Show / Hide Box</button>
+
+<!-- BOX -->
+<div id="box"
+     onmouseenter="hover(true)"
+     onmouseleave="hover(false)">
+  Dynamic Box
+</div>
+
+<script>
+let box = document.getElementById("box");
+
+let dark = false;
+let size = 20;
+let radius = 10;
+let shadow = false;
+
+/* THEME */
+function toggleTheme() {
+  dark = !dark;
+  document.body.style.background = dark ? "#111" : "#eee";
+  document.body.style.color = dark ? "white" : "black";
+}
+
+/* COLOR */
+document.getElementById("colorPicker").onchange = function() {
+  box.style.background = this.value;
+};
+
+/* FONT SIZE */
+function changeSize(val) {
+  size += val;
+  box.style.fontSize = size + "px";
+}
+
+/* BORDER RADIUS */
+function changeRadius(val) {
+  radius += val;
+  box.style.borderRadius = radius + "px";
+}
+
+/* SHADOW */
+function toggleShadow() {
+  shadow = !shadow;
+  box.style.boxShadow = shadow
+    ? "0 0 20px rgba(0,0,0,0.5)"
+    : "none";
+}
+
+/* SHOW / HIDE */
+function toggleBox() {
+  box.style.display =
+    box.style.display === "none" ? "flex" : "none";
+}
+
+/* HOVER EFFECT */
+function hover(state) {
+  box.style.transform = state
+    ? "scale(1.1) rotate(5deg)"
+    : "scale(1)";
+}
+</script>
+
+</body>
+</html>
