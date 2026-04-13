@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Result Calculator</title>
+</head>
+
+<body style="text-align:center; margin-top:50px; font-family: Arial;">
+
+  <h2>Student Result Calculator</h2>
+
+  <input type="number" id="sub1" placeholder="Enter sub1"><br><br>
+  <input type="number" id="sub2" placeholder="Enter sub2"><br><br>
+  <input type="number" id="sub3" placeholder="Enter sub3"><br><br>
+  <input type="number" id="sub4" placeholder="Enter sub4"><br><br>
+  <input type="number" id="sub5" placeholder="Enter sub5"><br><br>
+
+  <button onclick="calculateResult()">Calculate</button>
+
+  <div id="resultBox" style="margin-top:20px; padding:20px;"></div>
+
+  <script>
+    function calculateResult() {
+      const m1 = Number(document.getElementById("sub1").value);
+      const m2 = Number(document.getElementById("sub2").value);
+      const m3 = Number(document.getElementById("sub3").value);
+      const m4 = Number(document.getElementById("sub4").value);
+      const m5 = Number(document.getElementById("sub5").value);
+
+      const total = m1 + m2 + m3 + m4 + m5;
+      const percentage = total / 5;
+
+      let grade = "";
+      let status = "";
+
+      // Grade logic
+      if (percentage >= 90) grade = "A+";
+      else if (percentage >= 75) grade = "A";
+      else if (percentage >= 60) grade = "B";
+      else if (percentage >= 50) grade = "C";
+      else grade = "Fail";
+
+      // Pass/Fail logic
+      if (m1 < 35 || m2 < 35 || m3 < 35 || m4 < 35 || m5 < 35) {
+        status = "Fail";
+      } else {
+        status = "Pass";
+      }
+
+      const resultBox = document.getElementById("resultBox");
+
+      resultBox.style.backgroundColor =
+        status === "Pass" ? "lightgreen" : "salmon";
+
+      resultBox.innerHTML = `
+        <h3>Total: ${total}</h3>
+        <h3>Percentage: ${percentage}%</h3>
+        <h3>Grade: ${grade}</h3>
+        <h3>Status: ${status}</h3>
+      `;
+    }
+  </script>
+
+</body>
+</html>
